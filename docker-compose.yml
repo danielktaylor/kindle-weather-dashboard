@@ -1,0 +1,20 @@
+services:
+  dashboard-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dashboard-server
+    restart: unless-stopped
+    ports:
+      - "4700:80"
+    environment:
+      TOMORROW_IO_API_KEY: ${TOMORROW_IO_API_KEY}
+      WWW_DIR: /var/www/html
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "10"
+    mem_limit: 512m
+    cpus: 0.5
+    init: true

@@ -1,0 +1,33 @@
+{
+  "data": {
+    "time": "2024-10-06T03:34:00Z",
+    "values": {
+      "cloudBase": 0.35,
+      "cloudCeiling": 0.35,
+      "cloudCover": 67,
+      "dewPoint": 8.5,
+      "freezingRainIntensity": 0,
+      "humidity": 83,
+      "precipitationProbability": 0,
+      "pressureSurfaceLevel": 1010.99,
+      "rainIntensity": 0,
+      "sleetIntensity": 0,
+      "snowIntensity": 0,
+      "temperature": 68.31,
+      "temperatureApparent": 67.31,
+      "uvHealthConcern": 0,
+      "uvIndex": 0,
+      "visibility": 16,
+      "weatherCode": 1100,
+      "windDirection": 342.5,
+      "windGust": 6.13,
+      "windSpeed": 2.88
+    }
+  },
+  "location": {
+    "lat": 49.67365646362305,
+    "lon": -119.34400939941406,
+    "name": "Seattle, King County, Washington, 98103, United States",
+    "type": "postcode"
+  }
+}

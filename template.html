@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Kindle Dashboard</title>
+	<style>
+
+	body { margin:0; }
+
+	#viewport { position:relative; font-family:'Noto Sans'; }
+
+	#current-weather-icon { position:absolute; top:23px; left:59px; width:243px; height:243px;}
+	#current-weather { position:absolute; top:95px; left:340px; font-size:86px; font-weight:400; }
+	#current-date { position:absolute; top:195px; left:345px; font-size:42px; font-weight:400; }
+
+	#current-temperature { position:absolute; top:68px; left:1025px; font-size:160px; font-weight:400; }
+	#daily-temperature-high { position:absolute; top:115px; left:1315px; text-align:center; width:90px; font-size:50px; font-weight:300; }
+	#daily-temp-line { position:absolute; height:185px; left:1315px; width:90px; border-bottom:1px solid black; }
+	#daily-temperature-low { position:absolute; top:186px; left:1315px; text-align:center; width:90px; font-size:50px; font-weight:300; }
+
+
+	.graph-container { position:absolute; top: 345px; left:54px; height:450px; width:1350px; }
+	.graph-entry { position:absolute; height:450px; width:75px; }
+	.graph-header { position:absolute; top: 0px; left:0px; width: 65px; text-align: center; font-size:21px; font-weight:400; }
+	.graph-divider { position:absolute; top: 42px; left:32px; height:326px; border-left:1px solid black; }
+	.graph-point { position:absolute; top: 150px; left:0px; height:65px; width:65px; }
+	.graph-icon { position:absolute; top: 0px; left:0px; height:65px; width:65px; }
+	.graph-temperature{ position:absolute; top: 75px; left:0px; width:65px; text-align: center; font-size:26px; font-weight:500; }
+	.graph-rain-icon { position:absolute; top: 352px; left:11px; width:40px; height:40px; z-index:2 }
+	.graph-percent-rain { position:absolute; top: 401px; left:0px; width:65px; text-align:center; font-size:26px; font-weight:400; }
+	.white { background-color: white; }
+	
+	#graph-axis { position:absolute; height:714px; left:66px; width:1316px; border-bottom:1px solid black; }
+
+	.graph-offset-0 { left:0px; }
+	.graph-offset-1 { left:116px; }
+	.graph-offset-2 { left:232px; }
+	.graph-offset-3 { left:348px; }
+	.graph-offset-4 { left:464px; }
+	.graph-offset-5 { left:580px; }
+	.graph-offset-6 { left:696px; }
+	.graph-offset-7 { left:812px; }
+	.graph-offset-8 { left:928px; }
+	.graph-offset-9 { left:1044px; }
+	.graph-offset-10 { left:1160px; }
+	.graph-offset-11 { left:1276px; }
+
+	#nursery-title { position:absolute; top:813px; left:100px; font-size:48px; font-weight:400; }
+	#nursery-icon { position:absolute; top:824px; left:327px; width:26px; height:48px; }
+	#nursery-temperature { position:absolute; top:890px; left:100px; font-size:78px; font-weight:400; }
+	#nursery-temperature-high { position:absolute; top:907px; left:287px; width:50px; text-align:center; font-size:26px; font-weight:300; }
+	#nursery-temp-line { position:absolute; height:941px; left:287px; width:50px; border-bottom:1px solid black; }
+	#nursery-temperature-low { position:absolute; top:946px; left:287px; width:50px; text-align:center; font-size:26px; font-weight:300; }
+
+	#basement-title { position:absolute; top:813px; left:561px; font-size:48px; font-weight:400; }
+	#basement-icon { position:absolute; top:824px; left:837px; width:26px; height:48px; }
+	#basement-temperature { position:absolute; top:890px; left:561px; font-size:78px; font-weight:400; }
+	#basement-temperature-high { position:absolute; top:907px; left:756px; width:50px; text-align:center; font-size:26px; font-weight:300; }
+	#basement-temp-line { position:absolute; height:941px; left:756px; width:50px; border-bottom:1px solid black; }
+	#basement-temperature-low { position:absolute; top:946px; left:756px; width:50px; text-align:center; font-size:26px; font-weight:300; }
+
+	#air-quality-title { position:absolute; top:813px; left:1053px; font-size:48px; font-weight:400; }
+	#air-quality-icon { position:absolute; top:822px; left:1325px; }
+	#air-quality { position:absolute; top:890px; left:1053px; font-size:78px; font-weight:400; }
+	#air-quality-epa { position:absolute; top:945px; left:1190px; font-size:26px; font-weight:300; }
+
+	#refreshed-icon { position:absolute; top:1015px; left:1240px; font-size:34px; font-weight:400; }
+	#refreshed-timestamp { position:absolute; top:1015px; left:1290px; font-size:30px; font-weight:400; }
+
+	.hidden { visibility: hidden; }
+
+	</style>
+</head>
+<body>
+<div id="viewport">
+
+	<!-- Upper Left -->
+	<img id="current-weather-icon" src="http://localhost/images/weather/{{ weather_code }}{% if is_dark and weather_code in (1000,1100,1101) %}_night{% endif %}.png">
+	<div id="current-weather">{{ weather_description }}</div>
+	<div id="current-date">{{ current_date }}</div>
+
+	<!-- Upper Right -->
+	<div id="current-temperature">{{ current_temp }}°</div>
+	<div id="daily-temperature-high">{{ daily_temp_high }}°</div>
+	<div id="daily-temp-line"></div>
+	<div id="daily-temperature-low">{{ daily_temp_low }}°</div>
+
+	<!-- Middle Graph -->
+	<div class="graph-container">
+
+		{% for e in forecast %}
+
+		<div class="graph-entry graph-offset-{{ loop.index0 }}">
+			<div class="graph-header">{{ e['hour'] }}</div>
+			<div class="graph-divider"></div>
+
+			<!-- Note about constants in formula below:
+
+				 240 = largest pixel offset (bottom of graph)
+				 36 = smallest pixel offset (top of graph)
+			-->
+
+			<div class="graph-point" style="top:{{ (36.0 + ((graph_max - e['temperature']) * ((240.0 - 36.0) / (graph_max - graph_min))))|int }}px;">
+				<img class="graph-icon" src="http://localhost/images/weather/{{ e['weather_code'] }}{% if e['is_dark'] and e['weather_code'] in (1000,1100,1101) %}_night{% endif %}-small.png">
+				<div class="graph-temperature"><span class="white">{{ (e['temperature'])|int }}°<span></div>
+			</div>
+			<img class="graph-rain-icon {% if e['precipitation_probability'] < 1 %}hidden{% endif %}" src="http://localhost/images/raindrops.png">
+			<div class="graph-percent-rain {% if e['precipitation_probability'] < 1 %}hidden{% endif %}">{{ e['precipitation_probability'] }}%</div>
+		</div>
+
+		{% endfor %}
+
+	</div>
+
+	<!-- Middle Graph: Axis Line -->
+	<div id="graph-axis"></div>
+
+	<!-- Nursery -->
+	<div id="nursery-title">Nursery</div>
+	<img id="nursery-icon" src="http://localhost/images/thermometer.png">
+	<div id="nursery-temperature">{{ nursery_temp }}°</div>
+	<div id="nursery-temperature-high">{{ nursery_temp_high }}°</div>
+	<div id="nursery-temp-line"></div>
+	<div id="nursery-temperature-low">{{ nursery_temp_low }}°</div>
+
+	<!-- Basement -->
+	<div id="basement-title">Basement</div>
+	<img id="basement-icon" src="http://localhost/images/thermometer.png">
+	<div id="basement-temperature">{{ basement_temp }}°</div>
+	<div id="basement-temperature-high">{{ basement_temp_high }}°</div>
+	<div id="basement-temp-line"></div>
+	<div id="basement-temperature-low">{{ basement_temp_low }}°</div>
+
+	<!-- Air Quality -->
+	<div id="air-quality-title">Air Quality</div>
+	<img id="air-quality-icon" src="http://localhost/images/plant.png">
+	<div id="air-quality">{{ aqi }}</div>
+	<div id="air-quality-epa">EPA</div>
+
+	<!-- Last Refreshed -->
+	<div id="refreshed-icon">&#10227;</div>
+	<div id="refreshed-timestamp">{{ last_refreshed_timestamp }}</div>
+
+</div>
+</body>
+</html>
