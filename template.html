@@ -10,7 +10,7 @@
 	#viewport { position:relative; font-family:'Noto Sans'; }
 
 	#current-weather-icon { position:absolute; top:23px; left:59px; width:243px; height:243px;}
-	#current-weather { position:absolute; top:95px; left:340px; font-size:86px; font-weight:400; }
+	#current-weather { position:absolute; top:85px; left:340px; font-size:86px; font-weight:400; }
 	#current-date { position:absolute; top:195px; left:345px; font-size:42px; font-weight:400; }
 
 	#current-temperature { position:absolute; top:68px; left:1025px; font-size:160px; font-weight:400; }
@@ -62,10 +62,9 @@
 	#air-quality-title { position:absolute; top:813px; left:1053px; font-size:48px; font-weight:400; }
 	#air-quality-icon { position:absolute; top:822px; left:1325px; }
 	#air-quality { position:absolute; top:890px; left:1053px; font-size:90px; font-weight:400; }
-	#air-quality-epa { position:absolute; top:960px; left:1190px; font-size:26px; font-weight:300; }
+	#air-quality-epa { position:absolute; top:953px; left:1190px; font-size:32px; font-weight:300; }
 
-	#refreshed-icon { position:absolute; top:1008px; left:1190px; font-size:40px; font-weight:400; }
-	#refreshed-timestamp { position:absolute; top:1008px; left:1246px; font-size:40px; font-weight:400; }
+	#refreshed-timestamp { position:absolute; top:1008px; left:1230px; font-size:40px; font-weight:400; }
 
 	.hidden { visibility: hidden; }
 
@@ -138,8 +137,7 @@
 	<div id="air-quality-epa">EPA</div>
 
 	<!-- Last Refreshed -->
-	<div id="refreshed-icon">&#10227;</div>
-	<div id="refreshed-timestamp">{{ last_refreshed_timestamp }}</div>
+	<div id="refreshed-timestamp">&#10227; {{ last_refreshed_timestamp }}</div>
 
 </div>
 </body>
