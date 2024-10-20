@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: dashboard-server
-    restart: unless-stopped
+    restart: on-failure:10
     ports:
       - "4700:80"
     environment:
