@@ -24,6 +24,8 @@ args = parser.parse_args()
 is_mock_mode = args.mock
 if is_mock_mode:
     print('Running in mock APIs mode 🤖')
+elif tomorrow_io_api_key == '':
+    print('⚠️  WARNING: no tomorrow.io API key')
 
 weather_codes = {
     0: "Unknown",
@@ -286,39 +288,43 @@ async def task_screenshots(template):
         browser = await playwright.webkit.launch()
 
         while True:
-            weather = get_weather_values()
-            nursery = get_nursery_temps() 
-            basement = get_basement_temps() 
+            try:
+                weather = get_weather_values()
+                nursery = get_nursery_temps() 
+                basement = get_basement_temps() 
 
-            # Render template
-            context = {
-                'weather_description': weather['current_weather_str'],
-                'weather_code': weather['current_weather_code'],
-                'current_date': datetime.now(ZoneInfo('America/Los_Angeles')).strftime('%A, %B %-d'),
-                'current_temp': weather['current_temperature'],
-                'is_dark': weather['is_dark'],
-                'daily_temp_high': weather['daily_high'],
-                'daily_temp_low': weather['daily_low'],
-                'forecast': weather['forecast'],
-                'graph_min': weather['graph_min'],
-                'graph_max': weather['graph_max'],
-                'nursery_temp': nursery['current'],
-                'nursery_temp_high': nursery['high'],
-                'nursery_temp_low': nursery['low'],
-                'aqi': get_aqi_value(),
-                'last_refreshed_timestamp': datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%-I:%M %p'),
-                'basement_temp': basement['current'],
-                'basement_temp_high': basement['high'],
-                'basement_temp_low': basement['low']
-            }
-            html = await template.render_async(context)
+                # Render template
+                context = {
+                    'weather_description': weather['current_weather_str'],
+                    'weather_code': weather['current_weather_code'],
+                    'current_date': datetime.now(ZoneInfo('America/Los_Angeles')).strftime('%A, %B %-d'),
+                    'current_temp': weather['current_temperature'],
+                    'is_dark': weather['is_dark'],
+                    'daily_temp_high': weather['daily_high'],
+                    'daily_temp_low': weather['daily_low'],
+                    'forecast': weather['forecast'],
+                    'graph_min': weather['graph_min'],
+                    'graph_max': weather['graph_max'],
+                    'nursery_temp': nursery['current'],
+                    'nursery_temp_high': nursery['high'],
+                    'nursery_temp_low': nursery['low'],
+                    'aqi': get_aqi_value(),
+                    'last_refreshed_timestamp': datetime.now(ZoneInfo("America/Los_Angeles")).strftime('%-I:%M %p'),
+                    'basement_temp': basement['current'],
+                    'basement_temp_high': basement['high'],
+                    'basement_temp_low': basement['low']
+                }
+                html = await template.render_async(context)
 
-            # Run Playwright
-            await generate_screenshot(browser, html)
+                # Run Playwright
+                await generate_screenshot(browser, html)
 
-            # Yield
-            print('Generated screenshot; sleeping 🥱')
-            await asyncio.sleep(60) # 1 minute
+                # Yield
+                print('Generated screenshot; sleeping 🥱')
+                await asyncio.sleep(60) # 1 minute
+            except Exception as e:
+                print(f"An unexpected error occurred in the screenshot task: {e}")
+                await asyncio.sleep(60) # 1 minute
 
 async def task_mqtt_listener():
     global measurements
@@ -385,6 +391,9 @@ async def task_mqtt_listener():
         except aiomqtt.MqttError:
             print(f"Connection lost; Reconnecting in {interval} seconds ...")
             await asyncio.sleep(interval)
+        except Exception as e:
+            print(f"An unexpected error occurred in the MQTT task: {e}")
+            await asyncio.sleep(60) # 1 minute
 
 # Load the dashboard template
 file_loader = FileSystemLoader(os.getcwd())
