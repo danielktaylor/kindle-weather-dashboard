@@ -2,7 +2,7 @@
 
 A framed e-Ink weather display built from a `Kindle Paperwhite 3 (7th Generation, 2015)`.
 
-![photo](https://github.com/user-attachments/assets/6062ded0-b178-4c10-bf79-d50fd1f118e7)
+![screenshot](screenshot.jpg)
 
 ## About the server
 
