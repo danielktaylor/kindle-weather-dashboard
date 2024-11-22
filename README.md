@@ -42,7 +42,15 @@ Docker container serves rendered PNG at `http://localhost:4700/screenshot.png`
 
 ## Building the hardware
 
-(I would have also considered the [inkplate-10](https://www.crowdsupply.com/soldered/inkplate-10)/[inkplate-6](https://www.crowdsupply.com/soldered/inkplate-6) had I known they existed)
+I would also strongly recommend checking out the following prebuild options that might be easier:
+
+* [inkplate-10](https://www.crowdsupply.com/soldered/inkplate-10)
+* [inkplate-6](https://www.crowdsupply.com/soldered/inkplate-6)
+* [Invisible Calendar](https://shop.invisible-computers.com/products/invisible-calendar)
+* [TRMNL](https://usetrmnl.com/)
+* [Inky Impression](https://shop.pimoroni.com/search?q=inky)
+
+Steps I took:
 
 1. Buy a used Kindle Paperwhite 3 (7th Generation, 2015). Make sure it is running firmware version 5.16.2.1.1 (or lower) so that it can be jailbroken.
 2. Disassemble the Kindle ([ifixit guide](https://www.ifixit.com/Guide/Kindle+Paperwhite+3rd+Generation+Battery+Replacement/61550))
@@ -50,7 +58,7 @@ Docker container serves rendered PNG at `http://localhost:4700/screenshot.png`
 4. Get a mat cut for the frame at a framing store. Dimensions of the screen are 4.75" x 3.5".
 5. Glue the Kindle to the mat using something like Kwik Seal Adhesive Caulk.
 6. Buy an angled USB connector, version AMRI-V8LE, so that you can plug in a power cable: [AliExpress](https://www.aliexpress.us/item/3256801306879430.html?spm=a2g0o.order_list.order_list_main.4.6faf1802ifd8ra&gatewayAdapt=glo2usa)
-7. I bought a bigger 5000mAh battery ([link](https://www.amazon.com/dp/B08TTLBHSS?ref=ppx_yo2ov_dt_b_fed_asin_title)) so that I didn't need to charge it often. It's easy to unscrew the battery, remove the sticker, and clip the wires on the original battery. Keep all of the circuitry and the connector, and solder in the new battery leads. The battery I linked has its own safety circuitry.
+7. I bought a bigger 5000mAh battery ([link](https://www.amazon.com/dp/B08TTLBHSS?ref=ppx_yo2ov_dt_b_fed_asin_title)) so that I didn't need to charge it often. It's easy to unscrew the battery, remove the sticker, and clip off the wires on the original battery. Keep all of the circuitry and the connector, and solder in the new battery leads. The battery I linked has its own safety circuitry. The Kindle didn't like fully charging the battery until I wired it to both the original circuitry _and_ directly to the pins before the original protection circuit.
 
 ## Jailbreaking the Kindle (updated October 2024)
 
